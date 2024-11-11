@@ -32,7 +32,7 @@ def list_books(request: Request):
     "/{id}", response_description="Get a single book by id", response_model=Book
 )
 def find_book(id: str, request: Request):
-    if (book := request.app.database["books"].findOne({"_id": id})) is not None:
+    if (book := request.app.database["books"].find_one({"_id": id})) is not None:
         return book
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND, detail=f"Book with ID {id} not found"
@@ -41,7 +41,7 @@ def find_book(id: str, request: Request):
 
 @router.put("/{id}", response_description="Update a book", response_model=Book)
 def update_book(id: str, request: Request, book: BookUpdate = Body(...)):
-    book = {k: v for k, v in book.dict().items() if v is not None}
+    book = {k: v for k, v in book.model_dump().items() if v is not None}
     if len(book) >= 1:
         update_result = request.app.database["books"].update_one(
             {"_id": id}, {"$set": book}
@@ -53,7 +53,7 @@ def update_book(id: str, request: Request, book: BookUpdate = Body(...)):
                 detail=f"Book with ID: {id} not found",
             )
     if (
-        existing_book := request.app.database["books".find_one({"_id": id})]
+        existing_book := request.app.database["books"].find_one({"_id": id})
     ) is not None:
         return existing_book
 
