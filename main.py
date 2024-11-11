@@ -15,6 +15,7 @@ def startup_b_client():
 
 def shutdown_db_client():
     app.mongodb_client.close()
+    print("Closed connection to the MongoDB database!")
 
 
 @asynccontextmanager

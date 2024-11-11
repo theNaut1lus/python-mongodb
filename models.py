@@ -12,14 +12,20 @@ class Book(BaseModel):
 
     class Config:
         allow_population_by_field_name = True
-        # example for schema
-        schema_extra = {
-            "example": {
-                "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
-                "title": "Don Quixote",
-                "author": "Miguel de Cervantes",
-                "synopsis": "...",
-            }
+
+        # example for schema in FASTAPI
+        model_config = {
+            "populate_by_name": True,
+            "json_schema_extra": {
+                "examples": [
+                    {
+                        "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
+                        "title": "Don Quixote",
+                        "author": "Miguel de Cervantes",
+                        "synopsis": "...",
+                    }
+                ]
+            },
         }
 
 
@@ -29,11 +35,17 @@ class BookUpdate(BaseModel):
     author: Optional[str]
     synopsis: Optional[str]
 
-    class Config:
-        schema_extra = {
-            "example": {
-                "title": "Don Quixote",
-                "author": "Miguel de Cervantes",
-                "synopsis": "Don Quixote is a Spanish novel by Miguel de Cervantes...",
-            }
-        }
+    # example for schema in FASTAPI
+    model_config = {
+        "populate_by_name": True,
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
+                    "title": "Don Quixote",
+                    "author": "Miguel de Cervantes",
+                    "synopsis": "...",
+                }
+            ]
+        },
+    }
